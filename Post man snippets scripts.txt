@@ -1,0 +1,94 @@
+Post man snippets scriptsa
+1. Status code: Code is 200
+Use >
+ Check karta hai ki API ne 200 OK response diya ya nahi.
+
+Example
+Agar Login API successful hai to status code 200 aana chahiye.
+
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+Response
+Status : 200  ✅ Test Pass
+Agar
+Status : 404 ❌ Test Fail
+
+2. Response body: Contains string
+Use
+Response body me koi particular text hai ya nahi check karta hai.
+
+Example
+ Response
+{
+   "message":"Login Successful"
+}
+
+Script
+pm.test("Response contains Login", function () {
+    pm.expect(pm.response.text()).to.include("Login");
+});
+
+Ya
+pm.expect(pm.response.text()).to.include("Successful");
+
+Output
+PASS
+Agar response me "Login" nahi hua > FAIL
+
+
+
+
+3. Response body: JSON value check
+Use
+
+JSON ke kisi field ki value check karta hai.
+
+Example Response
+
+{
+    "firstname":"John",
+    "lastname":"Smith",
+    "bookingid":120
+}
+
+Script
+
+pm.test("Check First Name", function () {
+
+    var jsonData = pm.response.json();
+
+    pm.expect(jsonData.firstname).to.eql("John");
+
+});
+
+Output
+
+PASS
+
+Agar
+
+"firstname":"David"
+
+to
+
+FAIL
+Real Project Example
+
+Response
+
+{
+    "status":"success",
+    "token":"abc123"
+}
+
+Script
+
+var jsonData = pm.response.json();
+
+pm.test("Status should be success", function(){
+
+    pm.expect(jsonData.status).to.eql("success");
+
+});
